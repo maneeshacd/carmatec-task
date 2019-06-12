@@ -1,3 +1,6 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root 'item_categories#items'
+  resources :items
+  resources :item_categories
+  resources :item_taxes
 end

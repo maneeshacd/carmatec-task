@@ -1,0 +1,15 @@
+#add_category_modal.modal.fade{'aria-hidden': "true", role: 'dialog', tabindex: '-1'}
+  = form_for ItemCategory.new do |f|
+    .modal-dialog{role: 'document'}
+      .modal-content
+        .modal-header
+          %h5.modal-title New Category
+          %button.close{'aria-label': 'Close', 'data-dismiss': 'modal', type: 'button'}
+            %span{'aria-hidden': 'true'} &#215;
+        .modal-body
+          .form-group
+            = f.label :name, class: 'col-form-label'
+            = f.text_field :name, class: 'form-control'
+        .modal-footer
+          %button.btn.btn-secondary{'data-dismiss': 'modal', type: 'button'} Close
+          = f.submit 'Create', class: 'btn btn-primary'
