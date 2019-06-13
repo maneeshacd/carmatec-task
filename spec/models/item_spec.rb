@@ -11,5 +11,6 @@ RSpec.describe Item, type: :model do
 
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:rate) }
+    it { should delegate_method(:name).to(:item_category).with_prefix(true) }
   end
 end

@@ -1,0 +1,21 @@
+#add_item_modal.modal.fade{'aria-hidden': "true", role: 'dialog', tabindex: '-1'}
+  = form_for Item.new do |f|
+    .modal-dialog{role: 'document'}
+      .modal-content
+        .modal-header
+          %h5.modal-title New Item
+          %button.close{'aria-label': 'Close', 'data-dismiss': 'modal', type: 'button'}
+            %span{'aria-hidden': 'true'} &#215;
+        .modal-body
+          .form-group
+            = f.label :name, class: 'col-form-label'
+            = f.text_field :name, class: 'form-control', required: true
+          .form-group
+            = f.label :rate, class: 'col-form-label'
+            = f.number_field :rate, step: 0.01, class: 'form-control', required: true
+          .form-group
+            = f.label :category, class: 'col-form-label'
+            = f.select :item_category_id, options_for_select(ItemCategory.all.map{|c| [c.name, c.id]}), {}, {class: 'form-control', required: true}
+        .modal-footer
+          %button.btn.btn-secondary{'data-dismiss': 'modal', type: 'button'} Close
+          = f.submit 'Create', class: 'btn btn-primary'

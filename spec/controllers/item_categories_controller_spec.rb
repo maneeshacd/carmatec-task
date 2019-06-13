@@ -24,7 +24,7 @@ RSpec.describe ItemCategoriesController, type: :controller do
       end
 
       it 'returns success response' do
-        resp = post :create, params: category_params, format: :html
+        post :create, params: category_params, format: :html
         expect(response).to redirect_to(item_categories_path)
         expect(flash[:secondary]).to eq('Category created successfully')
       end
