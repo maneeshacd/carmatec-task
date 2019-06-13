@@ -4,4 +4,8 @@ class ItemTax < ApplicationRecord
   belongs_to :item
 
   enum tax_type: %i[percentage value]
+
+  def tax_display_text
+    value? ? "$#{tax}" : "#{tax}%"
+  end
 end

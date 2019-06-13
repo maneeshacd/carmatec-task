@@ -11,6 +11,7 @@ RSpec.describe Item, type: :model do
 
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:rate) }
+    it { should accept_nested_attributes_for(:item_tax) }
     it { should delegate_method(:name).to(:item_category).with_prefix(true) }
   end
 end

@@ -17,9 +17,13 @@ RSpec.describe ItemsController, type: :controller do
   describe '#create' do
     context 'when successful' do
       let(:item_category) { create(:item_category) }
+      let(:item_tax) { attributes_for(:item_tax) }
       let(:item_params) do
         {
-          item: attributes_for(:item).merge(item_category_id: item_category.id)
+          item: attributes_for(:item).merge(
+            item_category_id: item_category.id,
+            item_tax_attributes: item_tax
+          )
         }
       end
 
@@ -38,12 +42,12 @@ RSpec.describe ItemsController, type: :controller do
           }
         end
 
-        it "returns error message as response" do
+        it 'returns error message as response' do
           post :create, params: item_params, format: :html
           expect(response).to redirect_to(items_path)
           expect(flash[:secondary]).to eq(
             "Name can't be blank, Rate can't be blank, and Item category must"\
-            " exist"
+            ' exist'
           )
         end
       end
@@ -52,13 +56,17 @@ RSpec.describe ItemsController, type: :controller do
 
   describe '#update' do
     let(:item_category) { create(:item_category) }
+    let(:item_tax) { attributes_for(:item_tax) }
     let(:item) { create(:item) }
 
     context 'when successful' do
       let(:item_params) do
         {
           id: item.id,
-          item: attributes_for(:item).merge(item_category_id: item_category.id)
+          item: attributes_for(:item).merge(
+            item_category_id: item_category.id,
+            item_tax_attributes: item_tax
+          )
         }
       end
 
@@ -75,13 +83,13 @@ RSpec.describe ItemsController, type: :controller do
           { id: item.id, item: { name: nil, rate: nil, item_category_id: nil } }
         end
 
-        it "returns error message as response" do
+        it 'returns error message as response' do
           patch :update, params: item_params, format: :html
 
           expect(response).to redirect_to(items_path)
           expect(flash[:secondary]).to eq(
             "Name can't be blank, Rate can't be blank, and Item category must"\
-            " exist"
+            ' exist'
           )
         end
       end

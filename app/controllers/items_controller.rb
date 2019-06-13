@@ -2,7 +2,9 @@ class ItemsController < ApplicationController
   before_action :set_item, only: %i[edit update destroy]
 
   def index
-    @items = Item.order(:created_at)
+    @item = Item.new
+    @item.build_item_tax
+    @items = Item.includes(:item_tax).order(:created_at)
   end
 
   def create
@@ -41,7 +43,9 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:name, :item_category_id, :rate)
+    params.require(:item).permit(
+      :name, :item_category_id, :rate, item_tax_attributes: %i[id tax tax_type]
+    )
   end
 
   def set_item

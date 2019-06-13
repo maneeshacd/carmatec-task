@@ -11,11 +11,23 @@
             = f.label :name, class: 'col-form-label'
             = f.text_field :name, class: 'form-control', required: true
           .form-group
-            = f.label :rate, class: 'col-form-label'
+            %label.col-form-label Rate ($)
             = f.number_field :rate, step: 0.01, class: 'form-control', required: true
           .form-group
             = f.label :category, class: 'col-form-label'
             = f.select :item_category_id, options_for_select(ItemCategory.all.map{|c| [c.name, c.id]}, @item.item_category.id), {}, {class: 'form-control', required: true}
+          %b Tax Details
+          .card.bg-light.mt-2
+            .p-2
+              = f.fields_for :item_tax do |ff|
+                .form-group
+                  %label.col-form-label Tax (% / $)
+                  = ff.number_field :tax, step: 0.01, class: 'form-control', required: true
+                .form-group
+                  = ff.label :percentage, class: 'col-form-label'
+                  = ff.radio_button :tax_type, 'percentage', checked: true
+                  = ff.label :value, class: 'col-form-label'
+                  = ff.radio_button :tax_type, 'value'
         .modal-footer
           %button.btn.btn-secondary{'data-dismiss': 'modal', type: 'button'} Close
           = f.submit 'Create', class: 'btn btn-primary'
