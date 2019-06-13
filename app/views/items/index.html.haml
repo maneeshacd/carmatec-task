@@ -2,26 +2,32 @@
   %h4.d-inline ITEMS
   .pull-right
     = link_to 'Add Item', '#', class: 'btn btn-default btn-raised btn-primary mb-2', 'data-toggle': 'modal', 'data-target': '#add_item_modal'
-  %table.table.table-striped
-    %thead
-      %tr
-        %th.w-25 Name
-        %th.w-25 Category
-        %th.w-25 Rate($)
-        %th.w-25 Tax
-        %th.w-25 Actions
-    %tbody
-      - @items.each do |item|
+  - if @items.present?
+    %table.table.table-striped
+      %thead
         %tr
-          %td.w-25= item.name
-          %td= item.item_category_name
-          %td= item.rate
-          %td= item.item_tax.tax_display_text
-          %td
-            = link_to item_category_item_path(@category, item), method: :delete, data: {confirm: 'Are you sure, you want to delete this item?'} do
-              = fa_icon 'trash'
-            = link_to edit_item_category_item_path(@category, item), data: {remote: true}, class: 'pl-3' do
-              = fa_icon 'edit'
+          %th.w-25 Name
+          %th.w-25 Category
+          %th.w-25 Rate($)
+          %th.w-25 Tax
+          %th.w-25 Actions
+      %tbody
+        - @items.each do |item|
+          %tr
+            %td.w-25= item.name
+            %td= item.item_category_name
+            %td= item.rate
+            %td= item.item_tax.tax_display_text
+            %td
+              = link_to item_category_item_path(@category, item), method: :delete, data: {confirm: 'Are you sure, you want to delete this item?'} do
+                = fa_icon 'trash'
+              = link_to edit_item_category_item_path(@category, item), data: {remote: true}, class: 'pl-3' do
+                = fa_icon 'edit'
+  - else
+    .card.mt-4
+      .card-body
+        %center
+          %i No items available
   = will_paginate @items
 #edit_item
 = render 'items/new'

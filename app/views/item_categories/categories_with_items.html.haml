@@ -1,16 +1,27 @@
 .container.mt-2
   .items_in_categories
     %h5 ITEMS IN CATEGORIES
-    = form_tag selected_items_path, remote: true, id: 'items_list_form' do
-      - @item_categories.each do |category|
-        - if category.items.present?
+    - if @item_categories.present?
+      = form_tag selected_items_path, remote: true, id: 'items_list_form' do
+        - @item_categories.each do |category|
           .card.mt-4
             .card-header= category.name.upcase
             .card-body
-              - category.items.each do |item|
-                %label.checkbox-inline.pr-2
-                  = check_box_tag 'selected_items[]', item.id, false
-                  = item.name.titleize
-      = submit_tag 'Show Details', class: 'btn btn-sm btn-success btn-raised pull-right mt-2'
+              - if category.items.present?
+                - category.items.each do |item|
+                  %label.checkbox-inline.pr-2
+                    = check_box_tag 'selected_items[]', item.id, false
+                    = item.name.titleize
+              - else
+                .card
+                  .card-body
+                    %center
+                      %i No items available
+        = submit_tag 'Show Details', class: 'btn btn-sm btn-success btn-raised pull-right mt-2'
+    - else
+      .card.mt-4
+        .card-body
+          %center
+            %i No categories available
   .selected_items
 
