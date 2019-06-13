@@ -1,0 +1,15 @@
+%h5.d-inline ITEMS
+%table.table.table-striped.mt-4
+  %thead
+    %tr
+      %th.w-25 Name
+      %th.w-25 Sub Total($)
+      %th.w-25 Tax
+      %th.w-25 Total Amount
+  %tbody
+    - @items.each do |item|
+      %tr
+        %td= item.name
+        %td= item.rate
+        %td= item.item_tax.tax_display_text
+        %td= item.total_amount

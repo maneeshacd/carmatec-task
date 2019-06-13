@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :set_category
+  before_action :set_category, except: %i[selected_items]
   before_action :set_item, only: %i[edit update destroy]
 
   def index
@@ -40,6 +40,10 @@ class ItemsController < ApplicationController
               end
     flash[:secondary] = message
     redirect_back(fallback_location: item_category_items_path(@category))
+  end
+
+  def selected_items
+    @items = Item.includes(:item_tax).where(id: params[:selected_items])
   end
 
   private

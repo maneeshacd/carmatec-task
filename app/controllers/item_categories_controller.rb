@@ -1,7 +1,7 @@
 class ItemCategoriesController < ApplicationController
   before_action :set_category, only: %i[edit update destroy]
   def index
-    @item_categories = ItemCategory.includes(:items).order(:created_at)
+    @item_categories = ItemCategory.order(:created_at)
                                    .paginate(page: params[:page], per_page: 50)
   end
 
@@ -36,6 +36,10 @@ class ItemCategoriesController < ApplicationController
               end
     flash[:secondary] = message
     redirect_back(fallback_location: item_categories_path)
+  end
+
+  def categories_with_items
+    @item_categories = ItemCategory.includes(:items).order(:created_at)
   end
 
   private

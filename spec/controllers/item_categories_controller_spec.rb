@@ -93,4 +93,12 @@ RSpec.describe ItemCategoriesController, type: :controller do
       end
     end
   end
+
+  describe '#categories_with_items' do
+    it 'assigns @item_categories' do
+      item_category = ItemCategory.create(name: 'Electronics')
+      get :categories_with_items
+      expect(assigns(:item_categories)).to eq([item_category])
+    end
+  end
 end
