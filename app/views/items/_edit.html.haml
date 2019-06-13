@@ -1,5 +1,5 @@
 #edit_item_modal.modal.fade{'aria-hidden': "true", role: 'dialog', tabindex: '-1'}
-  = form_for @item do |f|
+  = form_for @item, url: item_category_item_path(@category, @item) do |f|
     .modal-dialog{role: 'document'}
       .modal-content
         .modal-header
@@ -13,9 +13,6 @@
           .form-group
             %label.col-form-label Rate ($)
             = f.number_field :rate, step: 0.01, class: 'form-control', required: true
-          .form-group
-            = f.label :category, class: 'col-form-label'
-            = f.select :item_category_id, options_for_select(ItemCategory.all.map{|c| [c.name, c.id]}, @item.item_category.id), {}, {class: 'form-control', required: true}
           %b Tax Details
           .card.bg-light.mt-2
             .p-2

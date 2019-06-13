@@ -1,21 +1,23 @@
 class ItemsController < ApplicationController
+  before_action :set_category
   before_action :set_item, only: %i[edit update destroy]
 
   def index
-    @item = Item.new
+    @item = @category.items.build
     @item.build_item_tax
-    @items = Item.includes(:item_tax).order(:created_at)
+    @items = @category.items.includes(:item_tax).order(:created_at)
+                      .paginate(page: params[:page], per_page: 50)
   end
 
   def create
-    @item = Item.create(item_params)
+    @item = @category.items.create(item_params)
     message = if @item.persisted?
                 'Item created successfully'
               else
                 @item.errors.full_messages.to_sentence
               end
     flash[:secondary] = message
-    redirect_back(fallback_location: items_path)
+    redirect_back(fallback_location: item_category_items_path(@category))
   end
 
   def edit; end
@@ -27,7 +29,7 @@ class ItemsController < ApplicationController
                 @item.errors.full_messages.to_sentence
               end
     flash[:secondary] = message
-    redirect_back(fallback_location: items_path)
+    redirect_back(fallback_location: item_category_items_path(@category))
   end
 
   def destroy
@@ -37,7 +39,7 @@ class ItemsController < ApplicationController
                 @item.errors.full_messages.to_sentence
               end
     flash[:secondary] = message
-    redirect_back(fallback_location: items_path)
+    redirect_back(fallback_location: item_category_items_path(@category))
   end
 
   private
@@ -46,6 +48,10 @@ class ItemsController < ApplicationController
     params.require(:item).permit(
       :name, :item_category_id, :rate, item_tax_attributes: %i[id tax tax_type]
     )
+  end
+
+  def set_category
+    @category = ItemCategory.find(params[:item_category_id])
   end
 
   def set_item
